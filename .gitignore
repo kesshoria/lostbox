@@ -45,3 +45,5 @@ dev-dist-ssr
 test-results
 playwright-report
 playwright/.cache
+vite.config.js
+vite.config.d.ts
