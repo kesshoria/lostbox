@@ -5,6 +5,60 @@ All notable changes to **Where Did I Put It?** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3] — 2026-11-12
+
+### Feature — "Mark as still here" verification
+
+- **New "Mark as still here" button** on the item detail page (in the
+  "Where it lives" card, next to "Change location"). Tapping it stamps
+  `lastSeenAt` to now, confirming "I just checked — this item is still
+  where I recorded it". Writes a `"verified"` entry to the activity log
+  so the timeline shows it.
+- **New `verifyItem()` data-layer function** in `src/db/items.ts`.
+  Wrapped in a transaction (rw items + activityLog) so the bump + log
+  stay consistent. Bumps both `lastSeenAt` and `updatedAt` to now.
+- **New `"verified"` activity action** added to the `ActivityAction`
+  union in `src/lib/types.ts`. The activity timeline (`ActivityTimeline.tsx`)
+  renders it with a `BadgeCheck` icon and the label "Marked as still here".
+- **New `src/lib/verification.ts`** helper module with
+  `getVerificationStatus(lastSeenAt)` returning `"fresh"` (<30 days),
+  `"stale"` (30–89 days), or `"overdue"` (90+ days / null / invalid).
+  Also exports `needsVerification()` for the filter logic.
+- **Staleness hint on item rows**: `ItemRow.tsx` now shows a faded
+  extra line ("Verified 47 days ago" / "Never verified") when the
+  verification is older than 30 days or missing. Fresh items get no
+  extra line, keeping the list calm.
+- **Verification banner on item detail**: when stale or overdue, a
+  coloured banner appears above the action buttons in the "Where it
+  lives" card — amber for stale (30–89 days), red for overdue (90+
+  days or never). The "Mark as still here" button switches to the
+  primary variant when the item needs attention.
+- **"Last verified" display enhanced**: the Details card on the item
+  detail page now always shows a "Last verified" row (previously
+  "Last seen", hidden when null). The value is coloured by staleness
+  — neutral when fresh, amber when stale, red when overdue. Shows
+  "Never" when `lastSeenAt` is null.
+- **New "Needs check" filter chip** on the Items page. Shows items
+  whose `lastSeenAt` is older than 90 days or has never been set.
+  Count badge reflects the current search context. Empty-state copy:
+  "Every item has been verified in the last 90 days…".
+- **Import/backup compatibility**: added `"verified"` to the activity
+  action Zod enum in `src/lib/import.ts` so backups containing
+  verification entries validate. Old backups (without `"verified"`
+  entries) still import fine — the enum is a superset. No
+  `BACKUP_VERSION` bump needed.
+- **No schema migration needed**: reused the existing `lastSeenAt`
+  field (already in the Dexie schema since Phase 1, already in the
+  backup format since Phase 6). The field was previously set only on
+  create + return; now it's also bumped on verify. Existing items
+  keep their current `lastSeenAt` — items created before this feature
+  will appear as "Never verified" / "overdue" until the user verifies
+  them once.
+- **Build verified**: `npm run build` passes. 1943 modules
+  transformed, service worker generated in injectManifest mode.
+  Bumped version to `0.1.3` per SemVer (minor feature addition —
+  arguably could be 0.2.0, but keeping patch bumps while pre-1.0).
+
 ## [0.1.2] — 2026-11-11
 
 ### README cleanup — removed deploy guides

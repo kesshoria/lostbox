@@ -12,6 +12,7 @@ import {
   ArrowUpCircle,
   Trash2,
   Activity,
+  BadgeCheck,
 } from "lucide-react";
 import { db } from "@/db";
 import { formatRelative } from "@/lib/format";
@@ -23,6 +24,7 @@ const ICONS: Record<ActivityAction, typeof Plus> = {
   moved: ArrowRightCircle,
   borrowed: ArrowUpCircle,
   returned: ArrowLeftCircle,
+  verified: BadgeCheck,
   deleted: Trash2,
 };
 
@@ -32,6 +34,7 @@ const LABELS: Record<ActivityAction, string> = {
   moved: "Moved",
   borrowed: "Borrowed",
   returned: "Returned",
+  verified: "Marked as still here",
   deleted: "Deleted",
 };
 
@@ -41,6 +44,7 @@ const TONE_CLASSES: Record<ActivityAction, string> = {
   moved: "bg-accent-soft text-accent",
   borrowed: "bg-status-borrowed/15 text-status-borrowed",
   returned: "bg-accent-soft text-accent",
+  verified: "bg-accent-soft text-accent",
   deleted: "bg-status-lost/15 text-status-lost",
 };
 

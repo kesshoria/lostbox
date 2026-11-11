@@ -13,6 +13,7 @@ export type ActivityAction =
   | "moved"
   | "borrowed"
   | "returned"
+  | "verified"
   | "deleted";
 
 // ============================================================

@@ -51,11 +51,12 @@ A fully-functional household item finder:
 - ✅ **Add / edit / delete locations** with notes + live item counts
 - ✅ **Add / edit / delete containers** with parent location + live item counts
 - ✅ **Search** across name, description, category, tags, location, container — multi-word, cross-field, debounced
-- ✅ **Filter** by All / Borrowed / Lost / Recent / Discarded with live counts
+- ✅ **Filter** by All / Borrowed / Lost / Recent / Discarded / Needs check with live counts
 - ✅ **Sort** by Recently updated / Name A–Z / Name Z–A
 - ✅ **Item detail page** with active borrow banner, history timeline, full actions
 - ✅ **Borrow / return workflow** with borrower name + dates + notes + confirmation
 - ✅ **Move workflow** with location + container in one go, auto-logged in history
+- ✅ **"Mark as still here" verification** — stamp an item as confirmed in its recorded location; rows show a faded "verified N days ago" hint after 30 days, and a "Needs check" filter surfaces items overdue for verification (90+ days or never)
 - ✅ **Photo upload** with client-side compression (1024px full, 400px thumb, JPEG q85)
 - ✅ **Photo display** in lists + detail page + full-size modal viewer
 - ✅ **Export / import JSON backup** with Zod validation, Replace or Merge modes
@@ -318,6 +319,7 @@ where-did-i-put-it/
     │   ├── format.ts           # Date formatters
     │   ├── search.ts          # Multi-word cross-field item search (Phase 3)
     │   ├── itemsFilter.ts     # Items page filter + sort logic (Phase 3)
+    │   ├── verification.ts   # "Still here" staleness helper (v0.1.3)
     │   ├── photos.ts         # Photo processing: compress + thumbnail (Phase 5)
     │   ├── export.ts         # Build + download JSON backup (Phase 6)
     │   ├── import.ts         # Parse + validate + restore JSON backup (Phase 6)
@@ -328,7 +330,7 @@ where-did-i-put-it/
     ├── db/
     │   ├── index.ts            # Dexie DB schema + singleton
     │   ├── activityLog.ts      # Audit-trail helper
-    │   ├── items.ts            # Item CRUD + borrow/return + move
+    │   ├── items.ts            # Item CRUD + borrow/return + move + verify
     │   ├── locations.ts        # Location CRUD
     │   ├── containers.ts       # Container CRUD
     │   ├── borrowRecords.ts    # Borrow record queries
@@ -420,7 +422,7 @@ Six IndexedDB object stores — see `src/db/index.ts` for the schema.
 | `locations` | A place in the home (Bedroom, Garage, etc.) |
 | `containers` | A box/drawer/shelf inside a location |
 | `borrowRecords` | One row per borrow event; active borrow has `returnedAt === null` |
-| `activityLog` | Immutable audit trail (created/updated/moved/borrowed/returned/deleted) |
+| `activityLog` | Immutable audit trail (created/updated/moved/borrowed/returned/verified/deleted) |
 | `settings` | Key/value app preferences (e.g. theme) |
 
 All IDs are UUID v4. All timestamps are ISO 8601 strings. Photos are stored as Blobs (not base64 strings) to keep memory usage down.

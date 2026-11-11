@@ -5,13 +5,15 @@
 
 import type { ItemStatus } from "@/lib/types";
 import type { SearchableItem } from "./search";
+import { needsVerification } from "./verification";
 
 export type FilterKey =
   | "all"
   | "borrowed"
   | "lost"
   | "recent" // recently updated (last 7 days)
-  | "discarded";
+  | "discarded"
+  | "needs-verification"; // lastSeenAt older than 90 days or never
 
 export type SortKey = "recent" | "name-asc" | "name-desc";
 
@@ -37,6 +39,9 @@ export function applyFilter(
     const cutoff = now.getTime() - sevenDaysMs;
     return list.filter((s) => new Date(s.item.updatedAt).getTime() >= cutoff);
   }
+  if (filter === "needs-verification") {
+    return list.filter((s) => needsVerification(s.item.lastSeenAt, now));
+  }
 
   return list;
 }
@@ -61,14 +66,16 @@ export function applySort(
 // Compute the count for each filter chip so the UI can show
 // "Borrowed (3)" etc.
 export function computeFilterCounts(list: SearchableItem[]): Record<FilterKey, number> {
-  const now = Date.now();
+  const now = new Date();
   const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
-  let borrowed = 0, lost = 0, discarded = 0, recent = 0;
+  const nowMs = now.getTime();
+  let borrowed = 0, lost = 0, discarded = 0, recent = 0, needsVerificationCount = 0;
   for (const s of list) {
     if (s.item.status === "borrowed") borrowed++;
     if (s.item.status === "lost") lost++;
     if (s.item.status === "discarded") discarded++;
-    if (new Date(s.item.updatedAt).getTime() >= now - sevenDaysMs) recent++;
+    if (new Date(s.item.updatedAt).getTime() >= nowMs - sevenDaysMs) recent++;
+    if (needsVerification(s.item.lastSeenAt, now)) needsVerificationCount++;
   }
   return {
     all: list.length,
@@ -76,6 +83,7 @@ export function computeFilterCounts(list: SearchableItem[]): Record<FilterKey, n
     lost,
     recent,
     discarded,
+    "needs-verification": needsVerificationCount,
   };
 }
 
