@@ -11,15 +11,19 @@ A production-quality, mobile-first PWA for recording where your household items 
 
 ## 🌐 Live demo
 
-> **Deploy URL:** _Add your Cloudflare Pages URL here once you deploy — see "Deploy to Cloudflare Pages" below._
+**🔗 [https://lostbox-kesshoria.vercel.app/](https://lostbox-kesshoria.vercel.app/)**
 
-Once deployed, anyone with the link can:
-- Use the app instantly in any modern browser
-- Install it as a PWA on their home screen (works on Android, iOS, desktop)
-- Use it fully offline after the first visit
+Open this URL in any modern browser:
+- **Android / desktop Chrome, Edge**: tap ⋮ → "Install app" → installs as a PWA with the teal magnifying-glass icon
+- **iOS Safari**: tap the Share button → "Add to Home Screen"
+- **Desktop Chrome / Edge**: click the install icon in the address bar
+
+Once installed, the app works fully offline — no internet connection needed
+after the first visit. All data is stored locally in your browser's IndexedDB.
+
+Hosted free on Vercel. Auto-redeploys on every push to `main`.
 
 ---
-
 
 ## Status
 
@@ -172,7 +176,46 @@ production.
 
 ---
 
-## Deploy to Cloudflare Pages (free)
+## Deploy to Vercel (free) — recommended
+
+The app is currently deployed at **[https://lostbox-kesshoria.vercel.app/](https://lostbox-kesshoria.vercel.app/)**.
+Vercel is free, gives you HTTPS out of the box (required for PWA install),
+and auto-redeploys on every push to `main`.
+
+### Option A — Git-connected (auto-deploys on push)
+
+1. Push the project to GitHub (see "Contributing" for the setup).
+2. Go to **[vercel.com](https://vercel.com)** and sign up with your GitHub account.
+3. Click **"Add New"** → **"Project"**.
+4. Import your `lostbox` GitHub repo.
+5. Vercel auto-detects Vite. Defaults are correct:
+   - **Build command:** `npm run build`
+   - **Output directory:** `dist`
+6. Click **"Deploy"**. Done in ~30 seconds.
+7. **Important:** After the first deploy, go to **Settings → Deployment Protection** and **disable Vercel Authentication** so the public URL works without login.
+
+### Option B — Vercel CLI (one-time deploy, no GitHub needed)
+
+```bash
+# Install the Vercel CLI
+npm install -g vercel
+
+# In the project folder:
+cd where-did-i-put-it
+vercel        # follow the prompts (free plan is fine)
+              # when it asks "Want to modify these settings?", just press Enter
+vercel --prod # promotes the deployment to production
+```
+
+The CLI will give you a `*.vercel.app` URL. Same as Option A — disable Deployment Protection if you want the public URL to work without login.
+
+---
+
+## Deploy to Cloudflare Pages (alternative)
+
+Cloudflare Pages is also free and gives you a `*.pages.dev` URL with HTTPS.
+The app includes `public/_redirects` and `public/_headers` for Cloudflare
+Pages SPA fallback + security headers, so the same build works there too.
 
 The recommended host — $0 forever for a personal app.
 
@@ -197,6 +240,33 @@ The recommended host — $0 forever for a personal app.
 ### SPA routing caveat
 
 Cloudflare Pages serves static files. For client-side routing to work on a deep link like `https://your-app.pages.dev/items/abc`, you need a `_redirects` file in `public/` with `/* /index.html 200`. This is already in `public/_redirects` (added in Phase 7).
+
+### Cloudflare Workers + Static Assets (newer flow)
+
+If Cloudflare's newer unified interface creates a **Workers** project (instead of a Pages project), the deploy command will be `npx wrangler deploy` instead of just serving `dist/`. To make this work, the project root has a `wrangler.toml` file:
+
+```toml
+name = "lostbox"
+compatibility_date = "2024-09-23"
+
+[assets]
+directory = "./dist"
+not_found_handling = "single-page-application"
+```
+
+This tells wrangler "this is just a static site — no Workers code, just serve the `dist/` folder, with SPA fallback for deep links."
+
+Without `wrangler.toml`, `wrangler deploy` may fail with:
+```
+✘ [ERROR] The version of Vite used in the project ("5.4.21") cannot be
+automatically configured. Please update the Vite version to at least
+"6.0.0" and try again.
+```
+
+That error happens because wrangler tries to auto-detect the framework
+and configure Workers functions for it. With `wrangler.toml` set to
+static assets mode, no auto-detection runs — it just deploys the
+built `dist/` folder as static files.
 
 ---
 

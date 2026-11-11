@@ -1,0 +1,31 @@
+# Cloudflare Workers configuration for static asset deployment.
+#
+# This file tells Cloudflare's `wrangler` CLI that this project is a
+# static site (no Workers code, just HTML/CSS/JS in the dist/ folder).
+# Without this file, `npx wrangler deploy` tries to auto-detect the
+# framework and may fail with "The version of Vite used in the project
+# cannot be automatically configured" if Vite is older than 6.0.
+#
+# With this file, wrangler just deploys the ./dist directory as static
+# assets — exactly what we want for a PWA.
+#
+# See: https://developers.cloudflare.com/workers/static-assets/
+
+name = "lostbox"
+compatibility_date = "2024-09-23"
+
+# Serve everything in the dist/ directory as static assets.
+# This is what `npm run build` produces.
+[assets]
+directory = "./dist"
+
+# SPA fallback: for any URL that doesn't match a real file (like
+# /items/abc), serve index.html. This makes React Router work on
+# deep links. (Same behavior as our public/_redirects file — we have
+# both because Cloudflare Pages reads _redirects, but Workers +
+# Static Assets reads this config instead.)
+not_found_handling = "single-page-application"
+
+# Don't run any JavaScript on the server side. The site is 100%
+# static — there's no Worker code, just assets.
+# (No `main` field = no Worker script = pure static hosting.)

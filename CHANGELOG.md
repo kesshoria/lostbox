@@ -20,18 +20,30 @@ any static host (Cloudflare Pages recommended — $0 forever).
 - **Copyright holder set**: Kesshoria (matches the email in Settings → Feedback).
 - **README polished for public GitHub**:
   - Added badge row (License: MIT, Made with React 18, PWA: installable, PRs welcome)
-  - Added "🌐 Live demo" section near the top (with a placeholder for the
-    Cloudflare Pages URL — to be filled in after deploy)
+  - Added "🌐 Live demo" section with the Vercel URL: `https://lostbox-kesshoria.vercel.app/`
+  - Added a "Deploy to Vercel (free) — recommended" section explaining both
+    Git-connected and CLI deploy workflows
   - Replaced the "TBD" License section with a clean MIT summary + what users
     are free to do (use, modify, distribute, sublicense, sell)
   - Crossed out the "no license yet" + "no copyright holder" items in Known
     Limitations + Roadmap (both done)
+- **Live deploy**: Deployed to Vercel at `https://lostbox-kesshoria.vercel.app/`
+  (free HTTPS, auto-deploys on push to `main`). Vercel Authentication disabled
+  so the URL works for anyone without login.
 - **`CONTRIBUTING.md` added**: A friendly guide for potential contributors
   explaining how to set up the dev environment, what coding conventions to
   follow, the PR process, and how to handle i18n translations.
 - **`.gitignore` hardened**: Added entries for `*.tsbuildinfo`, `dev-dist-ssr`,
   `.env*` (so secrets don't accidentally get committed), and Playwright test
   artifacts (`test-results`, `playwright-report`, `playwright/.cache`).
+- **Final deploy: Vercel**. After the Cloudflare wrangler auto-detection
+  issue (it tried to deploy as a Worker instead of static Pages, and
+  errored on Vite 5), the project was deployed to **Vercel** at
+  `https://lostbox-kesshoria.vercel.app/`, which auto-detects Vite correctly
+  and serves the `dist/` folder as static files with HTTPS out of the box.
+  The `wrangler.toml` file (Cloudflare Workers static-assets config) and
+  `public/_redirects` (Cloudflare Pages SPA fallback) are still included
+  for anyone who prefers to host on Cloudflare — they're harmless on Vercel.
 
 ### Post-Phase-7 — Feedback & support
 

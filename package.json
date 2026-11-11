@@ -4,13 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Local-first household item finder. Find anything in your home in under 10 seconds. No accounts, no cloud, works offline.",
-"scripts": {
-  "dev": "vite",
-  "build": "tsc -b && vite build",
-  "preview": "vite preview --host",
-  "typecheck": "tsc --noEmit",
-  "deploy": "echo \"Static deploy — Cloudflare serves the dist/ folder directly.\""
-},
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "date-fns": "^3.6.0",
     "dexie": "^4.0.9",
