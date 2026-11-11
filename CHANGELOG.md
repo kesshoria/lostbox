@@ -5,6 +5,33 @@ All notable changes to **Where Did I Put It?** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] — 2026-11-11
+
+### README cleanup — removed deploy guides
+
+- **Removed the "Deploy to Vercel (free) — recommended" section** from
+  `README.md`. The live URL is already shown in the "🌐 Live demo"
+  section at the top of the README, so the section was redundant
+  promotional / instructional content. The live demo note still says
+  "Hosted free on Vercel. Auto-redeploys on every push to `main`" —
+  that one-line summary is kept.
+- **Removed the "Deploy to Cloudflare Pages (alternative)" section**
+  from `README.md`, including its four sub-sections: Option A (Direct
+  upload), Option B (Git-connected), SPA routing caveat, and the
+  Cloudflare Workers + Static Assets flow note. The `wrangler.toml`
+  file remains in the project root for anyone who already knows how to
+  use it; it's just no longer documented in the README.
+- **Fixed a dangling forward-reference** in the "Run locally → Install
+  as PWA requires HTTPS" subsection that used to say "see Deploy to
+  Cloudflare Pages below". Rewritten to point at the live Vercel URL
+  instead, which is the actual recommended way to install on another
+  device.
+- **Updated `CONTRIBUTING.md`** example commit-message list: replaced
+  the now-stale "Update README with Cloudflare Pages deploy guide"
+  example with "Update README license section to clarify CC BY-ND 4.0".
+- **No source code, build, or runtime changes** — documentation only.
+  `npm run build` passes. Bumped patch version to `0.1.2` per SemVer.
+
 ## [0.1.1] — 2026-11-11
 
 ### License switch — MIT → CC BY-ND 4.0

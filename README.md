@@ -142,10 +142,7 @@ the "Install" option will show "This app cannot be installed."
 **To install on a different device** (e.g. your laptop, or another phone):
 
 - Either run the dev server on that device and access via its own `localhost`
-- Or deploy to Cloudflare Pages (free HTTPS) — see "Deploy to Cloudflare Pages" below. **This is the recommended way** if you want to use the app on multiple devices, because:
-  - You get a `*.pages.dev` URL with HTTPS for free
-  - The service worker caches the app shell so it works offline
-  - You can install it as a PWA on any device that visits the URL
+- Or open the live app at **[https://lostbox-kesshoria.vercel.app/](https://lostbox-kesshoria.vercel.app/)** in that device's browser and install from there. HTTPS is already set up, the service worker caches the app shell for offline use, and the PWA install prompt works on any device that visits the URL.
 
 ### Build for production
 
@@ -173,100 +170,6 @@ completes reliably. For a personal-use PWA served over localhost or
 Cloudflare Pages, this is fine. If you have a desktop machine available,
 you can re-enable `minify: "esbuild"` there to get a smaller bundle for
 production.
-
----
-
-## Deploy to Vercel (free) — recommended
-
-The app is currently deployed at **[https://lostbox-kesshoria.vercel.app/](https://lostbox-kesshoria.vercel.app/)**.
-Vercel is free, gives you HTTPS out of the box (required for PWA install),
-and auto-redeploys on every push to `main`.
-
-### Option A — Git-connected (auto-deploys on push)
-
-1. Push the project to GitHub (see "Contributing" for the setup).
-2. Go to **[vercel.com](https://vercel.com)** and sign up with your GitHub account.
-3. Click **"Add New"** → **"Project"**.
-4. Import your `lostbox` GitHub repo.
-5. Vercel auto-detects Vite. Defaults are correct:
-   - **Build command:** `npm run build`
-   - **Output directory:** `dist`
-6. Click **"Deploy"**. Done in ~30 seconds.
-7. **Important:** After the first deploy, go to **Settings → Deployment Protection** and **disable Vercel Authentication** so the public URL works without login.
-
-### Option B — Vercel CLI (one-time deploy, no GitHub needed)
-
-```bash
-# Install the Vercel CLI
-npm install -g vercel
-
-# In the project folder:
-cd where-did-i-put-it
-vercel        # follow the prompts (free plan is fine)
-              # when it asks "Want to modify these settings?", just press Enter
-vercel --prod # promotes the deployment to production
-```
-
-The CLI will give you a `*.vercel.app` URL. Same as Option A — disable Deployment Protection if you want the public URL to work without login.
-
----
-
-## Deploy to Cloudflare Pages (alternative)
-
-Cloudflare Pages is also free and gives you a `*.pages.dev` URL with HTTPS.
-The app includes `public/_redirects` and `public/_headers` for Cloudflare
-Pages SPA fallback + security headers, so the same build works there too.
-
-The recommended host — $0 forever for a personal app.
-
-### Option A — Direct upload (no CLI needed)
-
-1. Run `npm run build` locally.
-2. Log in to [Cloudflare Pages](https://pages.cloudflare.com/).
-3. **Create a project** → **Direct Upload**.
-4. Drag the `dist/` folder into the uploader.
-5. Done. You get a `*.pages.dev` URL.
-
-### Option B — Git-connected (auto-deploys on push)
-
-1. Push this project to a GitHub/GitLab repo.
-2. In Cloudflare Pages: **Create a project** → **Connect to Git**.
-3. Build settings:
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Node version:** 20 (set under Settings → Environment variables)
-4. Save and Deploy. Cloudflare rebuilds on every push.
-
-### SPA routing caveat
-
-Cloudflare Pages serves static files. For client-side routing to work on a deep link like `https://your-app.pages.dev/items/abc`, you need a `_redirects` file in `public/` with `/* /index.html 200`. This is already in `public/_redirects` (added in Phase 7).
-
-### Cloudflare Workers + Static Assets (newer flow)
-
-If Cloudflare's newer unified interface creates a **Workers** project (instead of a Pages project), the deploy command will be `npx wrangler deploy` instead of just serving `dist/`. To make this work, the project root has a `wrangler.toml` file:
-
-```toml
-name = "lostbox"
-compatibility_date = "2024-09-23"
-
-[assets]
-directory = "./dist"
-not_found_handling = "single-page-application"
-```
-
-This tells wrangler "this is just a static site — no Workers code, just serve the `dist/` folder, with SPA fallback for deep links."
-
-Without `wrangler.toml`, `wrangler deploy` may fail with:
-```
-✘ [ERROR] The version of Vite used in the project ("5.4.21") cannot be
-automatically configured. Please update the Vite version to at least
-"6.0.0" and try again.
-```
-
-That error happens because wrangler tries to auto-detect the framework
-and configure Workers functions for it. With `wrangler.toml` set to
-static assets mode, no auto-detection runs — it just deploys the
-built `dist/` folder as static files.
 
 ---
 

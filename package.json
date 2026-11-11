@@ -1,7 +1,7 @@
 {
   "name": "where-did-i-put-it",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Local-first household item finder. Find anything in your home in under 10 seconds. No accounts, no cloud, works offline.",
   "scripts": {

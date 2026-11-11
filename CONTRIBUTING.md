@@ -84,7 +84,7 @@ that says what changed:
 ```
 Add "Mark as Lost" button to item detail page
 Fix toast not showing after merge-mode import
-Update README with Cloudflare Pages deploy guide
+Update README license section to clarify CC BY-ND 4.0
 ```
 
 ## Pull request process
