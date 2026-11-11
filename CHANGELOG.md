@@ -5,6 +5,45 @@ All notable changes to **Where Did I Put It?** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] — 2026-11-11
+
+### License switch — MIT → CC BY-ND 4.0
+
+- **License changed from MIT to CC BY-ND 4.0** (Creative Commons
+  Attribution-NoDerivatives 4.0 International). The full official CC
+  BY-ND 4.0 legal code now replaces the previous MIT text in
+  [`LICENSE`](./LICENSE). The copyright holder remains **Kesshoria**.
+- **What this changes for users of the code:**
+  - ✅ You can still **use**, **copy**, and **redistribute** the source
+    code (verbatim / unmodified), including commercially.
+  - ✅ You can still **run and self-host** the app for personal use.
+  - ✅ You can still **use the live app** at
+    [lostbox-kesshoria.vercel.app](https://lostbox-kesshoria.vercel.app/)
+    with no restrictions (visiting a website is not licensed use of
+    the source).
+  - 📌 You **must** credit **"Kesshoria"** and include the `LICENSE`
+    file when sharing the code.
+  - ❌ You **cannot** publish a modified version of the source code
+    (the "NoDerivatives" restriction). Technical modifications needed
+    to run the code on your system are still allowed (CC BY-ND 4.0
+    Section 2(a)(4)); private modifications for your own use are fine
+    too. To contribute a fix or feature, open a pull request instead.
+- **README updated:**
+  - Badge switched from `License: MIT` (teal) to
+    `License: CC BY-ND 4.0` (Creative Commons orange `#ef9421`).
+  - The "License" section rewritten in plain English with three
+    sub-sections: **What you CAN do**, **What you MUST do**, **What you
+    CANNOT do**, plus a one-paragraph summary.
+  - "Known limitations" and "Roadmap" struck-through notes updated to
+    reference CC BY-ND 4.0 instead of MIT.
+  - "Credits" paragraph clarified: the MIT / Apache 2.0 / ISC entries
+    in the dependency table refer to the **dependencies' own
+    licenses** (which are unchanged), not to this app.
+- **No source code changes** — the build, service worker, PWA
+  manifest, and runtime behaviour are byte-identical to v0.1.0.
+  `npm run build` passes. Bumped patch version to `0.1.1` per SemVer
+  (license metadata change, no API/behaviour change).
+
 ## [0.1.0] — 2026-11-10
 
 The complete MVP, built in 7 phases. Every acceptance criterion from the

@@ -2,7 +2,7 @@
 
 > Find anything in your home in under 10 seconds. Local-first, private, works offline. No accounts. No cloud. $0 to run.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](./LICENSE)
+[![License: CC BY-ND 4.0](https://img.shields.io/badge/License-CC_BY--ND_4.0-ef9421.svg)](./LICENSE)
 [![Made with React](https://img.shields.io/badge/Made_with-React_18-61dafb.svg)](https://react.dev/)
 [![PWA](https://img.shields.io/badge/PWA-installable-5a0eff.svg)](https://web.dev/progressive-web-apps/)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
@@ -528,7 +528,7 @@ All IDs are UUID v4. All timestamps are ISO 8601 strings. Photos are stored as B
 
 These are intentional design choices or out-of-scope for v1:
 
-- ~~**No license yet.**~~ ✅ Now MIT-licensed. See [`LICENSE`](./LICENSE).
+- ~~**No license yet.**~~ ✅ Now licensed under CC BY-ND 4.0. See [`LICENSE`](./LICENSE).
 - ~~**No copyright holder name**~~ ✅ Now set to "Kesshoria".
 - **Service worker only generates in production builds** — `devOptions.enabled` is `false` in `vite.config.ts` to keep the dev server clean. Run `npm run build && npm run preview` to test the service worker locally.
 - **Search is limited to 20 results on Home** (to keep things snappy on huge libraries). Refine the query to see more. The Items page uses **Load-more pagination**: 50 results initially, then "Load 50 more".
@@ -552,7 +552,7 @@ What does work in v1:
 
 These are explicitly out of scope for v1 per the brief, but reasonable next steps:
 
-- ~~**License + copyright**~~ ✅ Done — MIT license, copyright Kesshoria.
+- ~~**License + copyright**~~ ✅ Done — CC BY-ND 4.0 license, copyright Kesshoria.
 - **QR code labels** for physical containers — scan to open the container page.
 - **Cloud sync** between devices (opt-in, end-to-end encrypted).
 - **Multi-household sharing**.
@@ -571,25 +571,77 @@ These are explicitly out of scope for v1 per the brief, but reasonable next step
 
 ## License
 
-**MIT** — see [`LICENSE`](./LICENSE) for the full text.
+**CC BY-ND 4.0** (Creative Commons Attribution-NoDerivatives 4.0
+International) — see [`LICENSE`](./LICENSE) for the full legal text.
 
-You're free to:
-- ✅ Use the app personally or commercially
-- ✅ Modify the source code
-- ✅ Distribute it
-- ✅ Sublicense it
-- ✅ Sell it (e.g. wrap it as part of a paid product)
+### What you CAN do
 
-The only requirement is that the original copyright notice + license
-text are included in all copies.
+- ✅ **Use the live app** at
+  [lostbox-kesshoria.vercel.app](https://lostbox-kesshoria.vercel.app/)
+  — visiting and using the website is not covered by the source license
+  at all; you can use it freely, no attribution needed.
+- ✅ **Download, read, and run the source code** for your own personal
+  use (e.g. self-host it on your own machine for your own household).
+- ✅ **Share and redistribute** the source code, in whole or in part,
+  verbatim (unmodified) — including in commercial contexts (e.g.
+  bundled on a CD, mirrored on another Git host, included on a USB
+  stick sold as part of a self-hosting kit).
+- ✅ **Repost** the code on your own blog, repo, or documentation, as
+  long as you keep it unmodified and credit the original author.
 
-© 2026 [Kesshoria](mailto:kesshoria@gmail.com). Released under the MIT License.
+### What you MUST do
+
+- 📌 **Give attribution** to **"Kesshoria"**. A reasonable way to do
+  this is to keep the existing copyright line at the top of the
+  `LICENSE` file, keep this README's "© 2026 Kesshoria" line, or
+  include a link back to
+  [github.com/Kesshoria/lostbox](https://github.com/Kesshoria/lostbox).
+- 📌 **Include a copy of the `LICENSE` file** (this CC BY-ND 4.0 legal
+  code) and a notice pointing to
+  https://creativecommons.org/licenses/by-nd/4.0/ when you share the
+  code.
+- 📌 **Indicate if you made any technical modifications** required to
+  run the code (e.g. config tweaks to build on your toolchain). These
+  are explicitly allowed by Section 2(a)(4) and do **not** count as
+  "Adapted Material" — but you should still mark them.
+
+### What you CANNOT do
+
+- ❌ **Modify the source code and share the modified version.** This
+  is the "NoDerivatives" part. You may make *technical modifications*
+  necessary to run the code on your system (Section 2(a)(4)), and you
+  may make modifications for your *own private use* — but you may **not
+  Share** a modified version publicly. If you want to contribute a fix
+  or feature, open a PR instead (see [`CONTRIBUTING.md`](./CONTRIBUTING.md));
+  accepted PRs get re-released under the same CC BY-ND 4.0 by the
+  maintainer.
+- ❌ **Sublicense** it under different terms.
+- ❌ **Remove the attribution** or the license notice.
+
+### Plain-English Summary
+
+> You can use the live app freely. You can copy, share, and host the
+> source code as-is, as long as you credit **Kesshoria** and include
+> the license. You cannot publish a modified version of the code. If
+> you want to improve it, send a pull request.
+
+This summary is not legally binding — see the
+[`LICENSE`](./LICENSE) file for the authoritative CC BY-ND 4.0 legal
+code, and
+https://creativecommons.org/licenses/by-nd/4.0/ for the human-readable
+summary on the Creative Commons website.
+
+© 2026 [Kesshoria](mailto:kesshoria@gmail.com). Released under the
+Creative Commons Attribution-NoDerivatives 4.0 International Public
+License (CC BY-ND 4.0).
 
 ---
 
 ## Credits
 
-Built with the following open-source libraries. All are MIT-licensed
+Built with the following open-source libraries. These are the licenses
+of the **dependencies themselves** (not this app — this app is
+CC BY-ND 4.0, see [License](#license) above). All are MIT-licensed
 except where noted:
 
 | Library | License | Purpose |
