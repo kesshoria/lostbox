@@ -1,0 +1,6 @@
+# Cloudflare Pages SPA fallback
+# All routes that don't match a real file should fall back to index.html
+# so client-side routing (React Router) can take over.
+# This file is read by Cloudflare Pages automatically.
+
+/*    /index.html    200
