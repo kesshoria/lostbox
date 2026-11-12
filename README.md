@@ -11,7 +11,7 @@ A production-quality, mobile-first PWA for recording where your household items 
 
 ## 🌐 Live demo
 
-**🔗 [https://lostbox-kesshoria.vercel.app/](https://lostbox-kesshoria.vercel.app/)**
+**🔗 [https://lostbox-find.vercel.app/](https://lostbox-find.vercel.app/)**
 
 Open this URL in any modern browser:
 - **Android / desktop Chrome, Edge**: tap ⋮ → "Install app" → installs as a PWA with the teal magnifying-glass icon
@@ -143,7 +143,7 @@ the "Install" option will show "This app cannot be installed."
 **To install on a different device** (e.g. your laptop, or another phone):
 
 - Either run the dev server on that device and access via its own `localhost`
-- Or open the live app at **[https://lostbox-kesshoria.vercel.app/](https://lostbox-kesshoria.vercel.app/)** in that device's browser and install from there. HTTPS is already set up, the service worker caches the app shell for offline use, and the PWA install prompt works on any device that visits the URL.
+- Or open the live app at **[https://lostbox-find.vercel.app/](https://lostbox-find.vercel.app/)** in that device's browser and install from there. HTTPS is already set up, the service worker caches the app shell for offline use, and the PWA install prompt works on any device that visits the URL.
 
 ### Build for production
 
@@ -482,7 +482,7 @@ International) — see [`LICENSE`](./LICENSE) for the full legal text.
 ### What you CAN do
 
 - ✅ **Use the live app** at
-  [lostbox-kesshoria.vercel.app](https://lostbox-kesshoria.vercel.app/)
+  [lostbox-find.vercel.app](https://lostbox-find.vercel.app/)
   — visiting and using the website is not covered by the source license
   at all; you can use it freely, no attribution needed.
 - ✅ **Download, read, and run the source code** for your own personal

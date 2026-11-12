@@ -5,6 +5,22 @@ All notable changes to **Where Did I Put It?** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.5] — 2026-11-12
+
+### Live URL changed
+
+- **Live app URL changed** from `https://lostbox-kesshoria.vercel.app/`
+  to **`https://lostbox-find.vercel.app/`**. The old URL is
+  decommissioned (returns Vercel "DEPLOYMENT_NOT_FOUND").
+- **Updated all references** to the old URL across `README.md` (3
+  occurrences: Live demo section, PWA install instructions, License
+  section) and `CHANGELOG.md` (4 occurrences in historical entries
+  v0.1.0–v0.1.1). Old entries now link to the new URL so there are no
+  dead links in the documentation.
+- No source code changes — the URL was never hardcoded in the app
+  itself (only in documentation). Build verified: `npm run build`
+  passes. Bumped to `0.1.5`.
+
 ## [0.1.4] — 2026-11-12
 
 ### Bugfix — removed stale "Phase 3 status" card from Home page
@@ -121,7 +137,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     code (verbatim / unmodified), including commercially.
   - ✅ You can still **run and self-host** the app for personal use.
   - ✅ You can still **use the live app** at
-    [lostbox-kesshoria.vercel.app](https://lostbox-kesshoria.vercel.app/)
+    [lostbox-find.vercel.app](https://lostbox-find.vercel.app/)
     with no restrictions (visiting a website is not licensed use of
     the source).
   - 📌 You **must** credit **"Kesshoria"** and include the `LICENSE`
@@ -162,14 +178,14 @@ any static host (Cloudflare Pages recommended — $0 forever).
 - **Copyright holder set**: Kesshoria (matches the email in Settings → Feedback).
 - **README polished for public GitHub**:
   - Added badge row (License: MIT, Made with React 18, PWA: installable, PRs welcome)
-  - Added "🌐 Live demo" section with the Vercel URL: `https://lostbox-kesshoria.vercel.app/`
+  - Added "🌐 Live demo" section with the Vercel URL: `https://lostbox-find.vercel.app/`
   - Added a "Deploy to Vercel (free) — recommended" section explaining both
     Git-connected and CLI deploy workflows
   - Replaced the "TBD" License section with a clean MIT summary + what users
     are free to do (use, modify, distribute, sublicense, sell)
   - Crossed out the "no license yet" + "no copyright holder" items in Known
     Limitations + Roadmap (both done)
-- **Live deploy**: Deployed to Vercel at `https://lostbox-kesshoria.vercel.app/`
+- **Live deploy**: Deployed to Vercel at `https://lostbox-find.vercel.app/`
   (free HTTPS, auto-deploys on push to `main`). Vercel Authentication disabled
   so the URL works for anyone without login.
 - **`CONTRIBUTING.md` added**: A friendly guide for potential contributors
@@ -181,7 +197,7 @@ any static host (Cloudflare Pages recommended — $0 forever).
 - **Final deploy: Vercel**. After the Cloudflare wrangler auto-detection
   issue (it tried to deploy as a Worker instead of static Pages, and
   errored on Vite 5), the project was deployed to **Vercel** at
-  `https://lostbox-kesshoria.vercel.app/`, which auto-detects Vite correctly
+  `https://lostbox-find.vercel.app/`, which auto-detects Vite correctly
   and serves the `dist/` folder as static files with HTTPS out of the box.
   The `wrangler.toml` file (Cloudflare Workers static-assets config) and
   `public/_redirects` (Cloudflare Pages SPA fallback) are still included
