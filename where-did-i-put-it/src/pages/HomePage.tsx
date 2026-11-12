@@ -1,8 +1,9 @@
 // ============================================================
-// Home page — Phase 3.
-// Search bar is now wired up. As the user types, matching items
-// appear in a results section below the search bar. Clearing the
-// query returns to the default Home (Recently updated preview).
+// Home page — search + recently updated preview.
+// Search bar filters items across name, tags, location, container.
+// When no search is active, the top 5 most recently updated items
+// are shown. Empty state (no items at all) shows a friendly prompt
+// to add the first item.
 //
 // Mobile-first: results are stacked below the search bar (not a
 // floating dropdown) so they're easy to tap with one hand.
@@ -196,23 +197,6 @@ export function HomePage() {
                 </Button>
               }
             />
-
-            <Card padding="md" className="border-dashed">
-              <p className="text-sm text-content-secondary">
-                <span className="font-medium text-content-primary">
-                  Phase 3 status:
-                </span>{" "}
-                Search is now live — type in the search bar to find anything
-                by name, tag, location, or container. Filters and sorting on
-                the Items page land in Phase 3c. Borrow workflow, photos, and
-                PWA offline come later.
-              </p>
-              <p className="mt-2 text-sm">
-                <Link to="/settings" className="text-accent hover:underline">
-                  Go to Settings →
-                </Link>
-              </p>
-            </Card>
           </>
         )}
 

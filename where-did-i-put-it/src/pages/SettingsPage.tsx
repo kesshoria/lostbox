@@ -14,7 +14,7 @@ import { ImportModal } from "@/components/settings/ImportModal";
 import { clearAllData } from "@/db";
 import type { ThemePref } from "@/lib/types";
 
-const APP_VERSION = "0.1.3";
+const APP_VERSION = "0.1.4";
 const FEEDBACK_EMAIL = "kesshoria@gmail.com";
 
 export function SettingsPage() {

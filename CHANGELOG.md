@@ -5,6 +5,28 @@ All notable changes to **Where Did I Put It?** are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] — 2026-11-12
+
+### Bugfix — removed stale "Phase 3 status" card from Home page
+
+- **Removed the "Phase 3 status" card** that appeared on the Home page
+  empty state (when the user has zero items). The card said "Search is
+  now live… Filters and sorting land in Phase 3c. Borrow workflow,
+  photos, and PWA offline come later." — all of which shipped in
+  Phases 3–7 and was misleading users on a fresh install. The empty
+  state now shows only the "Add your first item" card and the "No
+  items yet" prompt.
+- **Updated the `HomePage.tsx` header comment** from "Phase 3" / "Search
+  bar is now wired up" (development-era language) to a clean
+  present-tense description of what the page does.
+- **Root cause**: the card was added during Phase 3 development as a
+  "what's coming next" preview for early testers. It was gated behind
+  `!hasItems` (only shows when there are zero items), so it was easy
+  to miss in testing — anyone with items never saw it. Once all 7
+  phases shipped, the card became stale but wasn't removed.
+- No other code changes. Build verified: `npm run build` passes.
+  Bumped to `0.1.4`.
+
 ## [0.1.3] — 2026-11-12
 
 ### Feature — "Mark as still here" verification
