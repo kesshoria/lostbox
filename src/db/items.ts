@@ -162,7 +162,28 @@ export async function markReturned(itemId: string): Promise<void> {
   });
 }
 
+// "Still here" verification — user confirms the item is still at its
+// recorded location. Bumps lastSeenAt + updatedAt and logs a
+// "verified" activity entry so the timeline shows it.
+// Wrapped in a transaction so the bump + log stay consistent.
+export async function verifyItem(itemId: string): Promise<void> {
+  return db.transaction("rw", db.items, db.activityLog, async () => {
+    const item = await db.items.get(itemId);
+    if (!item) throw new Error("Item not found");
+
+    const now = nowIso();
+    await db.items.update(itemId, {
+      lastSeenAt: now,
+      updatedAt: now,
+    });
+    await logActivity(itemId, "verified", null);
+  });
+}
+
 // Quick "I just laid eyes on this" — bumps lastSeenAt + updatedAt.
+// Kept for backward compat / external callers; prefer verifyItem()
+// for the user-facing "Still here" flow (it also writes an activity
+// log entry). This one is silent (no activity log).
 export async function touchLastSeen(itemId: string): Promise<void> {
   const now = nowIso();
   await db.items.update(itemId, { lastSeenAt: now, updatedAt: now });

@@ -154,7 +154,9 @@ export function ItemsPage() {
               ? "discarded"
               : filter === "recent"
                 ? "recently updated"
-                : "matching";
+                : filter === "needs-verification"
+                  ? "needing verification"
+                  : "matching";
       emptyState = (
         <EmptyState
           icon={<Package size={28} />}
@@ -168,7 +170,9 @@ export function ItemsPage() {
                   ? "No items have been discarded."
                   : filter === "recent"
                     ? "Nothing has been updated in the last 7 days."
-                    : "Try a different filter or search."
+                    : filter === "needs-verification"
+                      ? "Every item has been verified in the last 90 days. Open any item and tap “Mark as still here” periodically to keep records fresh."
+                      : "Try a different filter or search."
           }
         />
       );
@@ -255,6 +259,13 @@ export function ItemsPage() {
               count={filterCounts.discarded}
             >
               Discarded
+            </FilterChip>
+            <FilterChip
+              selected={filter === "needs-verification"}
+              onClick={() => setFilter("needs-verification")}
+              count={filterCounts["needs-verification"]}
+            >
+              Needs check
             </FilterChip>
           </div>
         )}

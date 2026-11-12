@@ -67,7 +67,7 @@ const borrowRecordSchema = z.object({
 const activityEntrySchema = z.object({
   id: z.string().min(1),
   itemId: z.string().min(1),
-  action: z.enum(["created", "updated", "moved", "borrowed", "returned", "deleted"]),
+  action: z.enum(["created", "updated", "moved", "borrowed", "returned", "verified", "deleted"]),
   details: z.string().nullable(),
   createdAt: isoString,
 });

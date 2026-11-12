@@ -24,6 +24,7 @@ import {
   ArrowUpCircle,
   ArrowLeftCircle,
   ImageOff,
+  BadgeCheck,
 } from "lucide-react";
 
 import { AppShell } from "@/components/layout";
@@ -42,9 +43,10 @@ import { ActivityTimeline } from "@/components/items/ActivityTimeline";
 import { BorrowModal } from "@/components/items/BorrowModal";
 import { MoveModal } from "@/components/items/MoveModal";
 import { db } from "@/db";
-import { deleteItem, markReturned } from "@/db/items";
+import { deleteItem, markReturned, verifyItem } from "@/db/items";
 import { useObjectUrl } from "@/hooks/useObjectUrl";
 import { formatDate, formatRelative } from "@/lib/format";
+import { getVerificationStatus } from "@/lib/verification";
 
 export function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -57,6 +59,7 @@ export function ItemDetailPage() {
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [confirmReturnOpen, setConfirmReturnOpen] = useState(false);
   const [photoModalOpen, setPhotoModalOpen] = useState(false);
+  const [verifying, setVerifying] = useState(false);
 
   // Pull item + related data
   const data = useLiveQuery(async () => {
@@ -114,6 +117,7 @@ export function ItemDetailPage() {
   }
 
   const { item, location, container, activeBorrow } = data;
+  const verificationStatus = getVerificationStatus(item.lastSeenAt);
 
   function closeEdit() {
     setEditOpen(false);
@@ -143,6 +147,20 @@ export function ItemDetailPage() {
     } catch (err) {
       console.error(err);
       toast.error("Could not mark as returned.");
+    }
+  }
+
+  async function handleVerify() {
+    if (!item) return;
+    setVerifying(true);
+    try {
+      await verifyItem(item.id);
+      toast.success(`Marked “${item.name}” as still here.`);
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not mark as still here.");
+    } finally {
+      setVerifying(false);
     }
   }
 
@@ -267,15 +285,49 @@ export function ItemDetailPage() {
               </span>
             </div>
           </div>
-          {/* Move button — opens the move modal */}
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setMoveOpen(true)}
-            className="mt-3"
-          >
-            <ArrowRightCircle size={16} /> Change location
-          </Button>
+
+          {/* Verification status banner — only shown when stale or overdue.
+              Fresh items (<30 days) get no banner to keep the UI calm. */}
+          {verificationStatus !== "fresh" && (
+            <div
+              role="status"
+              className={`mt-3 rounded-card border p-2.5 text-sm ${
+                verificationStatus === "overdue"
+                  ? "border-status-lost/30 bg-status-lost/10 text-status-lost"
+                  : "border-status-borrowed/30 bg-status-borrowed/10 text-status-borrowed"
+              }`}
+            >
+              {item.lastSeenAt ? (
+                <p>
+                  Last verified {formatRelative(item.lastSeenAt)}.
+                  {verificationStatus === "overdue"
+                    ? " Confirm it's still here?"
+                    : " Maybe confirm it's still here?"}
+                </p>
+              ) : (
+                <p>Never verified. Confirm it's still here?</p>
+              )}
+            </div>
+          )}
+
+          {/* Action buttons — move + verify */}
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setMoveOpen(true)}
+            >
+              <ArrowRightCircle size={16} /> Change location
+            </Button>
+            <Button
+              variant={verificationStatus === "fresh" ? "secondary" : "primary"}
+              size="sm"
+              onClick={handleVerify}
+              loading={verifying}
+            >
+              <BadgeCheck size={16} /> Mark as still here
+            </Button>
+          </div>
         </Card>
 
         {/* Details: description, tags, dates */}
@@ -317,16 +369,22 @@ export function ItemDetailPage() {
                   {formatDate(item.createdAt)}
                 </dd>
               </div>
-              {item.lastSeenAt && (
-                <div>
-                  <dt className="text-content-muted flex items-center gap-1">
-                    <Clock size={12} aria-hidden="true" /> Last seen
-                  </dt>
-                  <dd className="mt-0.5 text-body text-content-primary">
-                    {formatRelative(item.lastSeenAt)}
-                  </dd>
-                </div>
-              )}
+              <div>
+                <dt className="text-content-muted flex items-center gap-1">
+                  <Clock size={12} aria-hidden="true" /> Last verified
+                </dt>
+                <dd
+                  className={`mt-0.5 text-body ${
+                    verificationStatus === "overdue"
+                      ? "text-status-lost"
+                      : verificationStatus === "stale"
+                        ? "text-status-borrowed"
+                        : "text-content-primary"
+                  }`}
+                >
+                  {item.lastSeenAt ? formatRelative(item.lastSeenAt) : "Never"}
+                </dd>
+              </div>
             </div>
           </dl>
         </Card>

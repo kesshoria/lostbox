@@ -2,13 +2,17 @@
 // ItemRow — single item card in the list.
 // Shows: thumbnail (real photo if present), name, status badge,
 // location/container, quantity, updated time.
+// When the item's verification is stale (30+ days) or overdue
+// (90+ days / never), shows a faded hint line so the user knows
+// "maybe go check, this might have moved".
 // Tap opens the item detail page (Phase 4a).
 // ============================================================
 
-import { MapPin, Boxes, Clock } from "lucide-react";
+import { MapPin, Boxes, Clock, BadgeCheck } from "lucide-react";
 import { Card, StatusBadge } from "@/components/ui";
 import { useObjectUrl } from "@/hooks/useObjectUrl";
 import { formatRelative } from "@/lib/format";
+import { getVerificationStatus } from "@/lib/verification";
 import type { Item } from "@/lib/types";
 
 interface ItemRowProps {
@@ -27,6 +31,11 @@ export function ItemRow({
   // Convert thumbnail blob to URL. Auto-revokes when blob changes or
   // component unmounts (useObjectUrl handles it).
   const thumbUrl = useObjectUrl(item.photoThumbnailBlob);
+
+  // Staleness hint — only show a line when the verification is older
+  // than 30 days (or never happened). Fresh items get no extra line.
+  const verificationStatus = getVerificationStatus(item.lastSeenAt);
+  const showVerificationHint = verificationStatus !== "fresh";
 
   return (
     <Card
@@ -108,6 +117,25 @@ export function ItemRow({
               />
               Updated {formatRelative(item.updatedAt)}
             </p>
+
+            {showVerificationHint && (
+              <p
+                className={`flex items-center gap-1.5 ${
+                  verificationStatus === "overdue"
+                    ? "text-status-lost/80"
+                    : "text-status-borrowed/80"
+                }`}
+              >
+                <BadgeCheck
+                  size={12}
+                  className="shrink-0"
+                  aria-hidden="true"
+                />
+                {item.lastSeenAt
+                  ? `Verified ${formatRelative(item.lastSeenAt)}`
+                  : "Never verified"}
+              </p>
+            )}
           </div>
         </div>
       </div>
